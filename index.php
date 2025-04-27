@@ -31,7 +31,7 @@
         <div class="container">
             <h1 class="display-4">Bienvenido al Hotel El Paraíso</h1>
             <p class="lead">El lugar perfecto para disfrutar de unas vacaciones inolvidables.</p>
-            <img src="img/hotel.jpg" alt="Hotel El Paraíso" class="img-fluid rounded">
+            <img src="img/hotel.png" alt="Hotel El Paraíso" class="img-fluid rounded">
         </div>
     </section>
 
@@ -68,7 +68,7 @@
 
 
     <footer class="bg-dark text-white text-center py-3">
-        <p>&copy; 2025 Hotel El Paraíso. Todos los derechos reservados.</p>
+        <p>&copy; 2025 Hotel El Paraíso . Todos los derechos reservados.</p>
     </footer>
 
 
