@@ -1,33 +1,49 @@
 <?php
 session_start();
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $cliente =[
-        'nombre' => $_POST['nombre'],
-        'nit' => $_POST['nit'],
-        'fecha_nacimiento' => $_POST['fecha_nacimiento'],
-        'fecha_registro' => date('Y-m-d H:i:s'),
-        'email' => $_POST['email'],
-        'telefono' => $_POST['telefono'],
-        'direccion' => $_POST['direccion'],
-        'habitacion' => "",
-        'cargos' => 0
-    ];
+if (!isset($_SESSION['clientes'])) {
+    $_SESSION['clientes'] = [];
+}
+$mensaje = "";
 
-    $edad = date_diff(date_create($cliente['fecha_nacimiento']), date_create(date('Y-m-d H:i:s')))->y;
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+        $nombre = $_POST['nombre'];
+        $nit = $_POST['nit'];
+        $fecha_nacimiento = $_POST['fecha_nacimiento'];
+        $fecha_registro = date('Y-m-d H:i:s');
+        $telefono = $_POST['telefono'];
+        $email = $_POST['email'];
+        $direccion = $_POST['direccion'];
+        $ocupacion = $_POST['ocupacion'];
+
+    $edad = date_diff(date_create($fecha_nacimiento), date_create('today'))->y;
 
     if ($edad < 18) {
-        $cliente['habitacion'] = 'Niños';
+        $habitacion = 'Niños';
     } elseif ($edad <= 60) {
-        $cliente['habitacion'] = 'Adultos';
+        $habitacion = 'Adultos';
     } else {
-        $cliente['habitacion'] = 'Tercera Edad';
+        $habitacion = 'Tercera Edad';
     }
 
+    $cliente = [
+        'nombre' => $nombre,
+        'nit' => $nit,
+        'fecha_nacimiento' => $fecha_nacimiento,
+        'fecha_registro' => $fecha_registro,
+        'telefono' => $telefono,
+        'email' => $email,
+        'direccion' => $direccion,
+        'ocupacion' => $ocupacion,
+        'habitacion' => $habitacion,
+        'cargos' => 0,
+    ];
+
+
     $_SESSION['clientes'][] = $cliente;
-    header("Location: dashboard.php");
-    exit();
+    $mensaje = "Cliente registrado exitosamente con habitación: $habitacion.";
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -36,18 +52,41 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>Registrar Cliente</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-<div class="container mt-5">
+<body class="container py-4">
     <h2>Registrar Cliente</h2>
+    <?php if ($mensaje): ?>
+        <div class="alert alert-success"><?= $mensaje ?></div>
+    <?php endif; ?>
     <form method="POST">
-        <input class="form-control mb-2" name="nombre" placeholder="Nombre" required>
-        <input class="form-control mb-2" name="nit" placeholder="NIT" required>
-        <input class="form-control mb-2" type="date" name="fecha_nacimiento" required>
-        <input class="form-control mb-2" name="email" placeholder="Correo electrónico">
-        <input class="form-control mb-2" name="telefono" placeholder="Teléfono">
-        <input class="form-control mb-2" name="direccion" placeholder="Dirección">
-        <button class="btn btn-success">Registrar</button>
+        <div class="mb-3">
+            <label>Nombre:</label>
+            <input type="text" name="nombre" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label>NIT:</label>
+            <input type="text" name="nit" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label>Fecha de nacimiento:</label>
+            <input type="date" name="fecha_nacimiento" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label>Teléfono:</label>
+            <input type="text" name="telefono" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label>Correo:</label>
+            <input type="email" name="correo" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label>Dirección:</label>
+            <input type="text" name="direccion" class="form-control" required>
+        </div>
+        <div class="mb-3">
+            <label>Ocupación:</label>
+            <input type="text" name="ocupacion" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Registrar Cliente</button>
     </form>
-</div>
 </body>
 </html>
