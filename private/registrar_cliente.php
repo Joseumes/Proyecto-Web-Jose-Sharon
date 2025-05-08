@@ -12,7 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $fecha_nacimiento = $_POST['fecha_nacimiento'];
         $fecha_registro = date('Y-m-d H:i:s');
         $telefono = $_POST['telefono'];
-        $email = $_POST['email'];
+        $correo = $_POST['correo'];
         $direccion = $_POST['direccion'];
         $ocupacion = $_POST['ocupacion'];
 
@@ -32,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         'fecha_nacimiento' => $fecha_nacimiento,
         'fecha_registro' => $fecha_registro,
         'telefono' => $telefono,
-        'email' => $email,
+        'correo' => $correo,
         'direccion' => $direccion,
         'ocupacion' => $ocupacion,
         'habitacion' => $habitacion,

@@ -1,8 +1,18 @@
 <?php
 session_start();
-if (!isset($_SESSION['usuario']) || $_SESSION['usuario'] !== 'admin') {
-    header("Location: ../public/login.php");
-    exit();
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+    
+    if ($username === 'admin' && $password === 'admin') {
+        $_SESSION['loggedin'] = true;
+        $_SESSION['username'] = $username;
+        header("Location: ../private/dashboard.php");
+        exit;
+    } else {
+        $error = "Usuario o contraseña incorrectos";
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -14,7 +24,7 @@ if (!isset($_SESSION['usuario']) || $_SESSION['usuario'] !== 'admin') {
 </head>
 <body>
 <div class="container mt-5">
-    <h1>Bienvenido, Admin</h1>
+    <h1>Bienvenido</h1>
     <a href="registrar_cliente.php" class="btn btn-primary mt-3">Registrar Cliente</a>
     <a href="actualizar_cargos.php" class="btn btn-warning mt-3">Actualizar Cargos</a>
     <a href="salida_cliente.php" class="btn btn-danger mt-3">Salida de Cliente</a>
