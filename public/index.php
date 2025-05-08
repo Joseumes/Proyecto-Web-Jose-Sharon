@@ -37,7 +37,7 @@
                         </button>
                     </li>
                     <li class="nav-item mt-2 mt-lg-0">
-                        <a class="btn btn-outline-light" href="login.php">
+                        <a class="btn btn-light" href="login.php">
                             <i class="fas fa-sign-in-alt me-1"></i> Iniciar Sesión
                         </a>
                     </li>
@@ -46,8 +46,8 @@
         </div>
     </nav>
 
-    <section class="hero-section">
-        <div class="container h-100">
+    <section class="hero-section" style="background-image: url('assets/img/fondo.jpg');">
+        <div class="container h-100" >
             <div class="row h-100 align-items-center">
                 <div class="col-lg-8 text-white">
                     <h1 class="display-4 fw-bold mb-4">Bienvenido al Hotel El Paraíso</h1>
@@ -56,7 +56,7 @@
                         <a href="#reservaModal" class="btn btn-primary btn-lg px-4" data-bs-toggle="modal">
                             <i class="fas fa-calendar-check me-2"></i> Reservar Ahora
                         </a>
-                        <a href="#rooms" class="btn btn-outline-light btn-lg px-4">
+                        <a href="#rooms" class="btn btn-primary btn-lg px-4">
                             <i class="fas fa-bed me-2"></i> Ver Habitaciones
                         </a>
                     </div>
@@ -137,7 +137,7 @@
             <div class="row g-4">
                 <div class="col-md-4">
                     <div class="card h-100 border-0 shadow-sm">
-                        <img src="assets/img/room1.jpg" class="card-img-top" alt="Habitación 1">
+                        <img src="assets/img/abitacion1.jpg" class="card-img-top" alt="Habitación 1">
                         <div class="card-body">
                             <h5 class="card-title">Habitación Doble</h5>
                             <p class="card-text">Amplias habitaciones con todas las comodidades para su descanso.</p>
@@ -160,7 +160,7 @@
                 
                 <div class="col-md-4">
                     <div class="card h-100 border-0 shadow-sm">
-                        <img src="assets/img/room2.jpg" class="card-img-top" alt="Habitación 2">
+                        <img src="assets/img/abitacion2.jpg" class="card-img-top" alt="Habitación 2">
                         <div class="card-body">
                             <h5 class="card-title">Habitación Doble</h5>
                             <p class="card-text">Amplias habitaciones con todas las comodidades para su descanso.</p>
@@ -183,7 +183,7 @@
                 
                 <div class="col-md-4">
                     <div class="card h-100 border-0 shadow-sm">
-                        <img src="assets/img/room3.jpg" class="card-img-top" alt="Habitación 3">
+                        <img src="assets/img/abitacion3.jpg" class="card-img-top" alt="Habitación 3">
                         <div class="card-body">
                             <h5 class="card-title">Habitación Doble</h5>
                             <p class="card-text">Amplias habitaciones con todas las comodidades para su descanso.</p>
@@ -275,7 +275,7 @@
                     <h5 class="modal-title" id="reservaModalLabel">Reservar Habitación</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <form action="public/reservas.php" method="POST">
+                <form action="reservas.php" method="POST">
                     <div class="modal-body">
                         <div class="row g-3">
                             <div class="col-md-6">
@@ -358,28 +358,28 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="assets/js/main.js"></script>
     <script>
-        //manejar fechas
+       
         document.addEventListener('DOMContentLoaded', function() {
             const fechaIngreso = document.getElementById('fecha_ingreso');
             const fechaSalida = document.getElementById('fecha_salida');
             
             if (fechaIngreso && fechaSalida) {
-                // Establecer fecha mínima hoy
+                
                 const hoy = new Date().toISOString().split('T')[0];
                 fechaIngreso.min = hoy;
                 
-                // Actualizar fecha mínima de salida cuando cambia la de ingreso
+                
                 fechaIngreso.addEventListener('change', function() {
                     fechaSalida.min = this.value;
                     
-                    // Si la fecha de salida es anterior a la nueva fecha de ingreso, resetear
+                    
                     if (fechaSalida.value && fechaSalida.value < this.value) {
                         fechaSalida.value = '';
                     }
                 });
             }
             
-            // Validación de edad de 18 años
+
             const fechaNacimiento = document.getElementById('fecha_nacimiento');
             if (fechaNacimiento) {
                 fechaNacimiento.addEventListener('change', function() {

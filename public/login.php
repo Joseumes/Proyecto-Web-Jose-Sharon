@@ -1,16 +1,16 @@
 <?php
 session_start();
 
-// Procesar el formulario de login
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST['username'];
     $password = $_POST['password'];
     
-    // Credenciales hardcodeadas para la fase 1 (admin/admin)
+    
     if ($username === 'admin' && $password === 'admin') {
         $_SESSION['loggedin'] = true;
         $_SESSION['username'] = $username;
-        header("Location: private/dashboard.php");
+        header("Location: ../private/dashboard.php");
         exit;
     } else {
         $error = "Usuario o contraseña incorrectos";
@@ -40,7 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     </style>
 </head>
-<body>
+<body style="background-image: url('assets/img/hotel.png'); background-repeat: no-repeat; background-size: cover; background-position: center;">
     <div class="container">
         <div class="login-container">
             <div class="card shadow">
@@ -71,7 +71,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
             </div>
             <div class="text-center mt-3">
-                <a href="index.php" class="text-decoration-none">Volver al sitio público</a>
+                <a href="index.php" class="btn btn-primary">Volver al sitio público</a>
             </div>
         </div>
     </div>
