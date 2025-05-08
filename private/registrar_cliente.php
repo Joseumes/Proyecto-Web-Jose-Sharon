@@ -16,6 +16,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $direccion = $_POST['direccion'];
         $ocupacion = $_POST['ocupacion'];
 
+        if (!is_numeric($nit)) {
+            $mensaje = "El NIT debe ser un número valido.";
+        } elseif (!is_numeric($telefono)) {
+            $mensaje = "El teléfono debe ser un número valido.";
+        } else {
+            foreach ($_SESSION['clientes'] as $clienteExistente) {
+                if ($clienteExistente['nombre'] === $nimbre) {
+                    $mensaje = "El cliente ya está registrado.";
+                    break;
+                }
+            }
+        }
+
     $edad = date_diff(date_create($fecha_nacimiento), date_create('today'))->y;
 
     if ($edad < 18) {
