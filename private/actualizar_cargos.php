@@ -5,7 +5,6 @@ if (!isset($_SESSION['loggedin'])) {
     exit;
 }
 
-// Definir servicios disponibles
 $servicios = [
     'Desayuno' => 30,
     'Almuerzo' => 65,
@@ -17,15 +16,14 @@ $servicios = [
     'Transporte' => 100
 ];
 
-// Inicializar variables
+
 $mensaje = "";
 $clienteSeleccionado = null;
 $habitacionSeleccionada = null;
 
-// Procesar formulario si se envió
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['agregar_servicios'])) {
-        // Proceso para agregar servicios
         $habitacion = $_POST['habitacion'];
         $nombreCliente = $_POST['nombre_cliente'];
         $cargosSeleccionados = $_POST['cargos'] ?? [];
@@ -37,8 +35,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             }
         }
         
-        // Aquí normalmente guardarías en la base de datos
-        // Por ahora simulamos con sesión
         if (!isset($_SESSION['cargos_clientes'])) {
             $_SESSION['cargos_clientes'] = [];
         }
@@ -59,7 +55,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
-// Obtener habitaciones ocupadas para el select
 $habitacionesOcupadas = [
     '101' => 'Juan Pérez',
     '102' => 'María Gómez',
@@ -80,10 +75,8 @@ $habitacionesOcupadas = [
 <body>
     <div class="container-fluid">
         <div class="row">
-            <!-- Sidebar -->
             <?php include('sidebar.php'); ?>
 
-            <!-- Main Content -->
             <div class="col-md-9 col-lg-10 p-4">
                 <h2 class="mb-4"><i class="fas fa-money-bill-wave me-2"></i> Actualizar Cargos por Servicios</h2>
                 
@@ -170,7 +163,6 @@ $habitacionesOcupadas = [
                     </div>
                 </div>
 
-                <!-- Mostrar historial de cargos si existe -->
                 <?php if (isset($_SESSION['cargos_clientes'][$habitacionSeleccionada])): ?>
                 <div class="card shadow mt-4">
                     <div class="card-header bg-primary text-white">

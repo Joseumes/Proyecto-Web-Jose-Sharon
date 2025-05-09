@@ -5,20 +5,16 @@ if (!isset($_SESSION['loggedin'])) {
     exit;
 }
 
-// Procesar formulario si se envió
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Aquí iría la lógica para registrar el cliente en la base de datos
     $habitacion = $_POST['habitacion'];
     $nombre = $_POST['nombre'];
     $nit = $_POST['nit'];
     
-    // Redirigir a habitaciones con mensaje de éxito
     $_SESSION['mensaje'] = "Cliente registrado exitosamente en habitación $habitacion";
     header("Location: habitaciones.php");
     exit;
 }
 
-// Obtener número de habitación si viene por GET
 $habitacion = isset($_GET['habitacion']) ? $_GET['habitacion'] : '';
 ?>
 <!DOCTYPE html>
@@ -33,10 +29,8 @@ $habitacion = isset($_GET['habitacion']) ? $_GET['habitacion'] : '';
 <body>
     <div class="container-fluid">
         <div class="row">
-            <!-- Sidebar (igual que en dashboard.php) -->
             <?php include('sidebar.php'); ?>
 
-            <!-- Main Content -->
             <div class="col-md-9 col-lg-10 p-4">
                 <h2 class="mb-4"><i class="fas fa-user-plus me-2"></i> Registrar Nuevo Cliente</h2>
                 
@@ -105,7 +99,6 @@ $habitacion = isset($_GET['habitacion']) ? $_GET['habitacion'] : '';
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Establecer fecha y hora actual por defecto
         document.addEventListener('DOMContentLoaded', function() {
             const now = new Date();
             const fechaHora = now.toISOString().slice(0, 16);

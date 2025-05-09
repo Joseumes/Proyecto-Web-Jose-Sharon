@@ -29,7 +29,6 @@ if (!isset($_SESSION['loggedin'])) {
 <body>
     <div class="container-fluid">
         <div class="row">
-            <!-- Sidebar -->
             <div class="col-md-3 col-lg-2 d-md-block sidebar bg-light p-3">
                 <div class="text-center mb-4">
                     <img src="../assets/img/logo.png" alt="Logo" width="80">
@@ -70,7 +69,6 @@ if (!isset($_SESSION['loggedin'])) {
                 </ul>
             </div>
 
-            <!-- Main Content -->
             <div class="col-md-9 col-lg-10 p-4">
                 <h2 class="mb-4"><i class="fas fa-tachometer-alt me-2"></i> Panel de Control</h2>
                 

@@ -5,17 +5,14 @@ if (!isset($_SESSION['loggedin'])) {
     exit;
 }
 
-// Procesar salida si se envió el formulario
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $habitacion = $_POST['habitacion'];
-    // Aquí iría la lógica para procesar la salida
     
     $_SESSION['mensaje'] = "Salida del cliente registrada correctamente. Habitación $habitacion liberada.";
     header("Location: habitaciones.php");
     exit;
 }
 
-// Obtener número de habitación si viene por GET
 $habitacion = isset($_GET['habitacion']) ? $_GET['habitacion'] : '';
 ?>
 <!DOCTYPE html>
@@ -30,10 +27,8 @@ $habitacion = isset($_GET['habitacion']) ? $_GET['habitacion'] : '';
 <body>
     <div class="container-fluid">
         <div class="row">
-            <!-- Sidebar (igual que en dashboard.php) -->
             <?php include('sidebar.php'); ?>
 
-            <!-- Main Content -->
             <div class="col-md-9 col-lg-10 p-4">
                 <h2 class="mb-4"><i class="fas fa-sign-out-alt me-2"></i> Registrar Salida de Cliente</h2>
                 
@@ -158,7 +153,6 @@ $habitacion = isset($_GET['habitacion']) ? $_GET['habitacion'] : '';
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-        // Establecer fecha y hora actual por defecto
         document.addEventListener('DOMContentLoaded', function() {
             const now = new Date();
             const fechaHora = now.toISOString().slice(0, 16);

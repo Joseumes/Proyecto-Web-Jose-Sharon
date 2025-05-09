@@ -32,16 +32,13 @@ if (!isset($_SESSION['loggedin'])) {
 <body>
     <div class="container-fluid">
         <div class="row">
-            <!-- Sidebar (igual que en dashboard.php) -->
             <?php include('sidebar.php'); ?>
 
-            <!-- Main Content -->
             <div class="col-md-9 col-lg-10 p-4">
                 <h2 class="mb-4"><i class="fas fa-bed me-2"></i> Gestión de Habitaciones</h2>
                 
                 <div class="row">
                     <?php
-                    // Datos de ejemplo de habitaciones
                     $habitaciones = [
                         ['numero' => 101, 'estado' => 'ocupada', 'cliente' => 'Juan Pérez', 'total' => 700, 'distancia' => 10],
                         ['numero' => 102, 'estado' => 'ocupada', 'cliente' => 'María Gómez', 'total' => 1050, 'distancia' => 20],
