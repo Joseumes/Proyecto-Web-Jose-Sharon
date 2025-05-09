@@ -1,105 +1,116 @@
 <?php
 session_start();
-
-if (!isset($_SESSION['clientes'])) {
-    $_SESSION['clientes'] = [];
+if (!isset($_SESSION['loggedin'])) {
+    header("Location: ../login.php");
+    exit;
 }
-$mensaje = "";
 
+// Procesar formulario si se envió
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $nombre = $_POST['nombre'];
-        $nit = $_POST['nit'];
-        $fecha_nacimiento = $_POST['fecha_nacimiento'];
-        $fecha_registro = date('Y-m-d H:i:s');
-        $telefono = $_POST['telefono'];
-        $correo = $_POST['correo'];
-        $direccion = $_POST['direccion'];
-        $ocupacion = $_POST['ocupacion'];
-
-        if (!is_numeric($nit)) {
-            $mensaje = "El NIT debe ser un número valido.";
-        } elseif (!is_numeric($telefono)) {
-            $mensaje = "El teléfono debe ser un número valido.";
-        } else {
-            foreach ($_SESSION['clientes'] as $clienteExistente) {
-                if ($clienteExistente['nombre'] === $nimbre) {
-                    $mensaje = "El cliente ya está registrado.";
-                    break;
-                }
-            }
-        }
-
-    $edad = date_diff(date_create($fecha_nacimiento), date_create('today'))->y;
-
-    if ($edad < 18) {
-        $habitacion = 'Niños';
-    } elseif ($edad <= 60) {
-        $habitacion = 'Adultos';
-    } else {
-        $habitacion = 'Tercera Edad';
-    }
-
-    $cliente = [
-        'nombre' => $nombre,
-        'nit' => $nit,
-        'fecha_nacimiento' => $fecha_nacimiento,
-        'fecha_registro' => $fecha_registro,
-        'telefono' => $telefono,
-        'correo' => $correo,
-        'direccion' => $direccion,
-        'ocupacion' => $ocupacion,
-        'habitacion' => $habitacion,
-        'cargos' => 0,
-    ];
-
-
-    $_SESSION['clientes'][] = $cliente;
-    $mensaje = "Cliente registrado exitosamente con habitación: $habitacion.";
+    // Aquí iría la lógica para registrar el cliente en la base de datos
+    $habitacion = $_POST['habitacion'];
+    $nombre = $_POST['nombre'];
+    $nit = $_POST['nit'];
+    
+    // Redirigir a habitaciones con mensaje de éxito
+    $_SESSION['mensaje'] = "Cliente registrado exitosamente en habitación $habitacion";
+    header("Location: habitaciones.php");
+    exit;
 }
 
+// Obtener número de habitación si viene por GET
+$habitacion = isset($_GET['habitacion']) ? $_GET['habitacion'] : '';
 ?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Registrar Cliente</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar Cliente - Hotel El Paraíso</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-<body class="container py-4">
-    <h2>Registrar Cliente</h2>
-    <?php if ($mensaje): ?>
-        <div class="alert alert-success"><?= $mensaje ?></div>
-    <?php endif; ?>
-    <form method="POST">
-        <div class="mb-3">
-            <label>Nombre:</label>
-            <input type="text" name="nombre" class="form-control" required>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar (igual que en dashboard.php) -->
+            <?php include('sidebar.php'); ?>
+
+            <!-- Main Content -->
+            <div class="col-md-9 col-lg-10 p-4">
+                <h2 class="mb-4"><i class="fas fa-user-plus me-2"></i> Registrar Nuevo Cliente</h2>
+                
+                <div class="card shadow">
+                    <div class="card-body">
+                        <form method="POST" action="registrar_cliente.php">
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">Número de Habitación</label>
+                                    <input type="text" class="form-control" name="habitacion" value="<?php echo $habitacion; ?>" required readonly>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Fecha de Registro</label>
+                                    <input type="datetime-local" class="form-control" name="fecha_registro" required>
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">Nombre Completo*</label>
+                                    <input type="text" class="form-control" name="nombre" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">NIT*</label>
+                                    <input type="text" class="form-control" name="nit" required>
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">Fecha de Nacimiento*</label>
+                                    <input type="date" class="form-control" name="fecha_nacimiento" required>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Teléfono*</label>
+                                    <input type="tel" class="form-control" name="telefono" required>
+                                </div>
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">Email</label>
+                                    <input type="email" class="form-control" name="email">
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Dirección</label>
+                                    <input type="text" class="form-control" name="direccion">
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label class="form-label">Comentarios/Requerimientos Especiales</label>
+                                <textarea class="form-control" name="comentarios" rows="3"></textarea>
+                            </div>
+                            
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                <a href="habitaciones.php" class="btn btn-secondary me-md-2">Cancelar</a>
+                                <button type="submit" class="btn btn-primary">Registrar Cliente</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="mb-3">
-            <label>NIT:</label>
-            <input type="text" name="nit" class="form-control" required>
-        </div>
-        <div class="mb-3">
-            <label>Fecha de nacimiento:</label>
-            <input type="date" name="fecha_nacimiento" class="form-control" required>
-        </div>
-        <div class="mb-3">
-            <label>Teléfono:</label>
-            <input type="text" name="telefono" class="form-control" required>
-        </div>
-        <div class="mb-3">
-            <label>Correo:</label>
-            <input type="email" name="correo" class="form-control" required>
-        </div>
-        <div class="mb-3">
-            <label>Dirección:</label>
-            <input type="text" name="direccion" class="form-control" required>
-        </div>
-        <div class="mb-3">
-            <label>Ocupación:</label>
-            <input type="text" name="ocupacion" class="form-control" required>
-        </div>
-        <button type="submit" class="btn btn-primary">Registrar Cliente</button>
-    </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Establecer fecha y hora actual por defecto
+        document.addEventListener('DOMContentLoaded', function() {
+            const now = new Date();
+            const fechaHora = now.toISOString().slice(0, 16);
+            document.querySelector('input[name="fecha_registro"]').value = fechaHora;
+        });
+    </script>
 </body>
 </html>
