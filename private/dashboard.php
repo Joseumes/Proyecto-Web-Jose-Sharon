@@ -31,7 +31,7 @@ if (!isset($_SESSION['loggedin'])) {
         <div class="row">
             <div class="col-md-3 col-lg-2 d-md-block sidebar bg-light p-3">
                 <div class="text-center mb-4">
-                    <img src="../assets/img/logo.png" alt="Logo" width="80">
+                    <img src="../public/assets/img/logo.png" alt="Logo" width="80">
                     <h5 class="mt-2">Hotel El Paraíso</h5>
                 </div>
                 
