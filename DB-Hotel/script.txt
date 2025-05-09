@@ -1,0 +1,198 @@
+create database Hotel_paraiso
+use Hotel_paraiso;
+CREATE TABLE usuarios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    contraseña VARCHAR(255) NOT NULL,
+    nombre VARCHAR(100) NOT NULL,
+    rol ENUM('admin', 'recepcion') DEFAULT 'recepcion'
+);
+select * from  usuarios
+
+INSERT INTO usuarios (username, contraseña, nombre, rol) 
+VALUES ('admin1', 'admin', 'Administrador', 'admin');
+
+
+CREATE TABLE habitaciones (
+    numero INT PRIMARY KEY,
+    estado ENUM('disponible', 'ocupada') DEFAULT 'disponible',
+    distancia_salida INT NOT NULL COMMENT 'Distancia en metros a la salida principal',
+    id_cliente INT DEFAULT NULL,
+    fecha_checkin DATETIME DEFAULT NULL,
+    fecha_checkout DATETIME DEFAULT NULL
+);
+drop table habitaciones 
+select * from habitaciones 
+INSERT INTO habitaciones (numero, distancia_salida) VALUES
+(1, 10), (2, 20), (3, 30), (4, 40),
+(5, 50), (6, 60), (7, 70), (8, 80);
+
+
+CREATE TABLE clientes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    nit VARCHAR(20) NOT NULL,
+    fecha_nacimiento DATE NOT NULL,
+    telefono VARCHAR(15),
+    email VARCHAR(100),
+    direccion TEXT,
+    fecha_registro DATETIME DEFAULT CURRENT_TIMESTAMP,
+    total_cargos DECIMAL(10,2) DEFAULT 0.00
+);
+select * from clientes
+
+
+CREATE TABLE servicios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(50) NOT NULL,
+    precio DECIMAL(10,2) NOT NULL
+);
+
+
+INSERT INTO servicios (nombre, precio) VALUES
+('Desayuno', 30.00),
+('Almuerzo', 65.00),
+('Cena', 75.00),
+('Masaje', 150.00),
+('Spa', 300.00);
+
+select * from servicios
+
+
+CREATE TABLE cliente_servicios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    id_cliente INT NOT NULL,
+    id_habitacion INT NOT NULL,
+    id_servicio INT NOT NULL,
+    cantidad INT DEFAULT 1,
+    fecha DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (id_cliente) REFERENCES clientes(id),
+    FOREIGN KEY (id_habitacion) REFERENCES habitaciones(numero),
+    FOREIGN KEY (id_servicio) REFERENCES servicios(id)
+);
+select * from cliente_servicios
+
+CREATE TABLE reservas (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    nit VARCHAR(20) NOT NULL,
+    fecha_nacimiento DATE NOT NULL,
+    telegono int NOT NULL,
+    fecha_ingreso DATE NOT NULL,
+    fecha_salida DATE NOT NULL,
+    estado ENUM('pendiente', 'confirmada', 'cancelada') DEFAULT 'pendiente',
+    fecha_creacion DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+
+DELIMITER //
+CREATE PROCEDURE asignar_habitacion(IN p_id_cliente INT)
+BEGIN
+    DECLARE v_edad INT;
+    DECLARE v_habitacion INT;
+    
+    -- Calcular edad del cliente
+    SELECT TIMESTAMPDIFF(YEAR, fecha_nacimiento, CURDATE()) INTO v_edad
+    FROM clientes WHERE id = p_id_cliente;
+    
+    -- Buscar habitación según edad
+    IF v_edad >= 60 THEN
+        -- Personas mayores: habitación más cercana (menor distancia)
+        SELECT numero INTO v_habitacion
+        FROM habitaciones
+        WHERE estado = 'disponible'
+        ORDER BY distancia_salida ASC
+        LIMIT 1;
+    ELSE
+        -- Personas jóvenes: habitación más lejana (mayor distancia)
+        SELECT numero INTO v_habitacion
+        FROM habitaciones
+        WHERE estado = 'disponible'
+        ORDER BY distancia_salida DESC
+        LIMIT 1;
+    END IF;
+    
+    -- Asignar habitación
+    IF v_habitacion IS NOT NULL THEN
+        UPDATE habitaciones 
+        SET estado = 'ocupada', 
+            id_cliente = p_id_cliente, 
+            fecha_checkin = NOW()
+        WHERE numero = v_habitacion;
+        
+        SELECT v_habitacion AS habitacion_asignada;
+    ELSE
+        SELECT 'No hay habitaciones disponibles' AS mensaje;
+    END IF;
+END //
+DELIMITER ;
+
+
+UPDATE habitaciones 
+SET estado = 'ocupada', 
+    id_cliente = 5, 
+    fecha_checkin = NOW()
+WHERE numero = 3;
+
+
+
+
+DELIMITER //
+
+CREATE PROCEDURE registrar_servicio(
+    IN p_id_cliente INT,
+    IN p_id_habitacion INT,
+    IN p_id_servicio INT,
+    IN p_cantidad INT
+)
+BEGIN
+    DECLARE ultimo_id INT;
+
+    -- Insertar en cliente_servicios
+    INSERT INTO cliente_servicios (id_cliente, id_habitacion, id_servicio, cantidad)
+    VALUES (p_id_cliente, p_id_habitacion, p_id_servicio, p_cantidad);
+    
+    -- Obtener el ID del último insert
+    SET ultimo_id = LAST_INSERT_ID();
+
+    -- Actualizar total cargos del cliente
+    UPDATE clientes
+    SET total_cargos = total_cargos + (
+        SELECT precio * p_cantidad
+        FROM servicios
+        WHERE id = p_id_servicio
+    )
+    WHERE id = p_id_cliente;
+END //
+
+DELIMITER ;
+CALL registrar_servicio(5, 3, 2, 1);
+
+
+-- Calcula el total de noches y el total de servicios del cliente en la habitación
+SELECT 
+    350 * DATEDIFF(NOW(), fecha_checkin) AS total_noches,
+    (SELECT COALESCE(SUM(s.precio * cs.cantidad), 0) 
+     FROM cliente_servicios cs 
+     JOIN servicios s ON cs.id_servicio = s.id
+     WHERE cs.id_habitacion = 1) AS total_servicios
+FROM habitaciones
+WHERE numero = 1;
+
+
+UPDATE habitaciones 
+SET estado = 'disponible', 
+    id_cliente = NULL,
+    fecha_checkout = NOW()
+WHERE numero = 1;
+
+SELECT 
+    h.numero,
+    h.estado,
+    h.distancia_salida,
+    c.nombre AS cliente,
+    DATEDIFF(NOW(), h.fecha_checkin) AS noches_ocupadas,
+    c.total_cargos
+FROM habitaciones h
+LEFT JOIN clientes c ON h.id_cliente = c.id
+ORDER BY h.numero;
