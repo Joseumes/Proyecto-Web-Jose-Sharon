@@ -1,72 +1,68 @@
+/* assets/css/styles.css */
 
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    padding-top: 56px;
-    color: #333;
+/* Body */
+body.bg-dark {
+    background-color: #121212 !important;
+    color: #ffffff !important;
 }
 
-
-.hero-section {
-    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('../img/hero-bg.jpg');
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
+/* Navbar */
+.navbar-dark .navbar-brand {
+    color: #ffffff;
+}
+.navbar-dark .navbar-nav .nav-link {
+    color: #ffffff;
 }
 
-.icon-service {
-    width: 70px;
-    height: 70px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+/* Cards */
+.card.bg-dark {
+    background-color: #1f1f1f;
+}
+.card-body {
+    color: #ffffff;
+}
+.card-footer {
+    background-color: transparent;
+    border-top: none;
 }
 
-
-
-.card {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    border-radius: 10px;
-    overflow: hidden;
+/* Form Inputs */
+.form-control.bg-dark {
+    background-color: #2c2c2c;
+    color: #ffffff;
+}
+.form-control::placeholder {
+    color: #999999;
 }
 
-.card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+/* Buttons */
+.btn-primary {
+    background-color: #1e88e5;
+    border-color: #1e88e5;
+}
+.btn-primary:hover {
+    background-color: #1565c0;
+    border-color: #1565c0;
 }
 
-
-.navbar {
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+/* Alert */
+.alert-info {
+    background-color: #00acc1;
+    color: #fff;
 }
 
-.modal-header {
-    border-bottom: none;
+/* Modal */
+.modal-content.bg-dark {
+    background-color: #1f1f1f;
 }
-
-
-@media (max-width: 768px) {
-    body {
-        padding-top: 60px;
-    }
-    
-    .hero-section {
-        min-height: 80vh;
-        text-align: center;
-    }
-    
-    .navbar-brand img {
-        width: 30px;
-        height: 30px;
-    }
+.modal-header.bg-secondary {
+    background-color: #37474f;
 }
-
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+.modal-footer .btn-secondary {
+    background-color: #37474f;
+    border-color: #37474f;
 }
-
-.fade-in {
-    animation: fadeIn 1s ease-in;}
+.modal-footer .btn-primary {
+    background-color: #1e88e5;
+    border-color: #1e88e5;
+}
