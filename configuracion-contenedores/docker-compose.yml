@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  mysql-db:
+    image: mysql:8.0
+    container_name: hotel-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_DATABASE: Hotel_Paraiso
+      MYSQL_USER: hoteluser
+      MYSQL_PASSWORD: hotelpass
+    ports:
+      - "3308:3306"
+    volumes:
+      - ../DB-Hotel:/docker-entrypoint-initdb.d
+      - mysql_data:/var/lib/mysql
+    networks:
+      - hotel-network
+
+  php-dark:
+    build:
+      context: ../sitio-web-dark
+    container_name: hotel-web-dark
+    ports:
+      - "8080:80"
+    volumes:
+      - ../sitio-web-dark:/var/www/html
+    depends_on:
+      - mysql-db
+    networks:
+      - hotel-network
+
+  php-light:
+    build:
+      context: ../sitio-web-light
+    container_name: hotel-web-light
+    ports:
+      - "8081:80"
+    volumes:
+      - ../sitio-web-light:/var/www/html
+    depends_on:
+      - mysql-db
+    networks:
+      - hotel-network
+
+volumes:
+  mysql_data:
+
+networks:
+  hotel-network:
+    driver: bridge

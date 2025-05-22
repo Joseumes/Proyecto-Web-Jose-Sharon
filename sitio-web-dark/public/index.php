@@ -48,24 +48,24 @@
 
 <!-- Hero Section -->
 
-<section class="hero-section" style="background-image: url('assets/img/fondo.jpg');">
-    <div class="container h-100" >
-        <div class="row h-100 align-items-center">
-            <div class="col-lg-8 text-white">
-                <h1 class="display-4 fw-bold mb-4">Bienvenido al Hotel El Paraíso</h1>
-                <p class="lead mb-5">El lugar perfecto para disfrutar de unas vacaciones inolvidables con la comodidad que mereces.</p>
-                <div class="d-flex gap-3">
-                    <a href="#reservaModal" class="btn btn-primary btn-lg px-4" data-bs-toggle="modal">
-                        <i class="fas fa-calendar-check me-2"></i> Reservar Ahora
-                    </a>
-                    <a href="#rooms" class="btn btn-primary btn-lg px-4">
-                        <i class="fas fa-bed me-2"></i> Ver Habitaciones
-                    </a>
+    <section class="hero-section" style="background-image: url('assets/img/fondo.jpg');">
+            <div class="container h-100" >
+                <div class="row h-100 align-items-center">
+                    <div class="col-lg-8 text-white">
+                        <h1 class="display-4 fw-bold mb-4">Bienvenido al Hotel El Paraíso</h1>
+                        <p class="lead mb-5">El lugar perfecto para disfrutar de unas vacaciones inolvidables con la comodidad que mereces.</p>
+                        <div class="d-flex gap-3">
+                            <a href="#reservaModal" class="btn btn-primary btn-lg px-4" data-bs-toggle="modal">
+                                <i class="fas fa-calendar-check me-2"></i> Reservar Ahora
+                            </a>
+                            <a href="#rooms" class="btn btn-primary btn-lg px-4">
+                                <i class="fas fa-bed me-2"></i> Ver Habitaciones
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
-</section>
+        </section>
 
 <!-- About Section -->
 
@@ -359,7 +359,7 @@
     </div>
 </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="assets/js/main.js"></script>
     <script>
        
