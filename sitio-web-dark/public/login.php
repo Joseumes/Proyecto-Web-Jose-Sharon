@@ -40,15 +40,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     </style>
 </head>
-<body style="background-image: url('assets/img/hotel.png'); background-repeat: no-repeat; background-size: cover; background-position: center;">
+<body class="dark-mode" style="background-image: url('assets/img/hotel.png'); background-repeat: no-repeat; background-size: cover; background-position: center;">
     <div class="container">
         <div class="login-container">
-            <div class="card shadow">
+            <div class="card shadow" style="background-color: rgba(0, 0, 0, 0.8); color: #ffffff;">
                 <div class="card-body p-4">
                     <div class="login-logo">
                         <img src="assets/img/logo.png" alt="Hotel El Paraíso">
                         <h4 class="mt-2">Hotel "El Paraíso"</h4>
-                        <p class="text-muted">Acceso para empleados</p>
+                        <p class="text-muted text-white-50">Acceso para empleados</p>
                     </div>
                     
                     <?php if (isset($error)): ?>
@@ -58,11 +58,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                         <div class="mb-3">
                             <label for="username" class="form-label">Usuario</label>
-                            <input type="text" class="form-control" id="username" name="username" required>
+                            <input type="text" class="form-control bg-dark text-white border-secondary" id="username" name="username" required>
                         </div>
                         <div class="mb-3">
                             <label for="password" class="form-label">Contraseña</label>
-                            <input type="password" class="form-control" id="password" name="password" required>
+                            <input type="password" class="form-control bg-dark text-white border-secondary" id="password" name="password" required>
                         </div>
                         <div class="d-grid">
                             <button type="submit" class="btn btn-primary">Ingresar</button>

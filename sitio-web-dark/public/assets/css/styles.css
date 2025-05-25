@@ -1,4 +1,6 @@
-/* assets/css/styles.css */
+/* --------------------- */
+/* Estilos Base Generales */
+/* --------------------- */
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -6,7 +8,7 @@ body {
     color: #333;
 }
 
-
+/* Hero section */
 .hero-section {
     background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('../img/hero-bg.jpg');
     background-size: cover;
@@ -17,6 +19,7 @@ body {
     align-items: center;
 }
 
+/* Icono de servicio */
 .icon-service {
     width: 70px;
     height: 70px;
@@ -25,8 +28,7 @@ body {
     justify-content: center;
 }
 
-
-
+/* Tarjetas */
 .card {
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     border-radius: 10px;
@@ -38,102 +40,386 @@ body {
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
 
-
+/* Navbar */
 .navbar {
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
+/* Modal */
 .modal-header {
     border-bottom: none;
 }
 
-
+/* Responsive */
 @media (max-width: 768px) {
     body {
         padding-top: 60px;
     }
-    
+
     .hero-section {
         min-height: 80vh;
         text-align: center;
     }
-    
+
     .navbar-brand img {
         width: 30px;
         height: 30px;
     }
 }
 
+/* Animaciones */
 @keyframes fadeIn {
     from { opacity: 0; }
     to { opacity: 1; }
 }
-
 .fade-in {
-    animation: fadeIn 1s ease-in;}
-/* Body */
+    animation: fadeIn 1s ease-in;
+}
+
+/* ----------------------------- */
+/*      MODO OSCURO GLOBAL       */
+/* ----------------------------- */
+
 body.bg-dark {
     background-color: #121212 !important;
     color: #ffffff !important;
 }
 
-/* Navbar */
-.navbar-dark .navbar-brand {
-    color: #ffffff;
-}
+/* NAVBAR */
+.navbar-dark .navbar-brand,
 .navbar-dark .navbar-nav .nav-link {
-    color: #ffffff;
+    color: #ffffff !important;
 }
 
-/* Cards */
+/* SIDEBAR */
+.sidebar {
+    background-color: #1f1f1f !important;
+}
+.sidebar .nav-link {
+    color: #ccc !important;
+}
+.sidebar .nav-link:hover,
+.sidebar .nav-link.active {
+    color: #0d6efd !important;
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    border-radius: 4px;
+}
+
+/* TARJETAS */
+.card,
 .card.bg-dark {
-    background-color: #1f1f1f;
+    background-color: #1f1f1f !important;
+    color: #ffffff !important;
+    border: 1px solid #333 !important;
 }
-.card-body {
-    color: #ffffff;
+.card .card-header.bg-light {
+    background-color: #2c2c2c !important;
+    color: #ddd !important;
 }
-.card-footer {
-    background-color: transparent;
-    border-top: none;
+.card .card-body {
+    color: #eee !important;
 }
-
-/* Form Inputs */
-.form-control.bg-dark {
-    background-color: #2c2c2c;
-    color: #ffffff;
-}
-.form-control::placeholder {
-    color: #999999;
+.card .card-footer {
+    background-color: transparent !important;
+    border-top: none !important;
 }
 
-/* Buttons */
+/* FORMULARIOS */
+.form-control.bg-dark,
+input.form-control,
+select.form-select,
+textarea.form-control {
+    background-color: #2c2c2c !important;
+    color: #ffffff !important;
+    border: 1px solid #555 !important;
+}
+.form-control::placeholder,
+select.form-select option {
+    color: #999999 !important;
+}
+input[readonly] {
+    background-color: #3a3a3a !important;
+    color: #ccc !important;
+}
+
+/* FOCUS */
+.form-control:focus,
+.form-select:focus,
+textarea.form-control:focus {
+    background-color: #3a3a3a !important;
+    border-color: #1e88e5 !important;
+    color: #fff !important;
+    box-shadow: 0 0 0 0.25rem rgba(30, 136, 229, 0.5);
+}
+
+/* BOTONES */
 .btn-primary {
-    background-color: #1e88e5;
-    border-color: #1e88e5;
+    background-color: #1e88e5 !important;
+    border-color: #1e88e5 !important;
+    color: #fff !important;
 }
 .btn-primary:hover {
-    background-color: #1565c0;
-    border-color: #1565c0;
+    background-color: #1565c0 !important;
+    border-color: #1565c0 !important;
+    color: #fff !important;
 }
 
-/* Alert */
+.btn-secondary {
+    background-color: #444 !important;
+    border-color: #444 !important;
+    color: #ddd !important;
+}
+.btn-secondary:hover {
+    background-color: #666 !important;
+    border-color: #666 !important;
+    color: #fff !important;
+}
+
+/* ALERTAS */
 .alert-info {
-    background-color: #00acc1;
-    color: #fff;
+    background-color: #00acc1 !important;
+    color: #fff !important;
 }
 
-/* Modal */
+/* TABLAS */
+.table {
+    color: #ddd !important;
+    border-color: #444 !important;
+}
+.table thead {
+    background-color: #2c2c2c !important;
+    color: #fff !important;
+}
+.table tbody tr {
+    border-bottom: 1px solid #444 !important;
+}
+.table tfoot {
+    background-color: #2c2c2c !important;
+    color: #fff !important;
+}
+.table th,
+.table td {
+    border-color: #444 !important;
+}
+
+/* MODALES */
 .modal-content.bg-dark {
-    background-color: #1f1f1f;
+    background-color: #1f1f1f !important;
+    color: #eee !important;
 }
 .modal-header.bg-secondary {
-    background-color: #37474f;
+    background-color: #37474f !important;
+    color: #ddd !important;
 }
 .modal-footer .btn-secondary {
-    background-color: #37474f;
-    border-color: #37474f;
+    background-color: #37474f !important;
+    border-color: #37474f !important;
+    color: #ddd !important;
 }
 .modal-footer .btn-primary {
-    background-color: #1e88e5;
-    border-color: #1e88e5;
+    background-color: #1e88e5 !important;
+    border-color: #1e88e5 !important;
+    color: #fff !important;
+}
+
+/* ENCABEZADOS */
+h1, h2, h3, h4, h5, h6 {
+    color: #eee !important;
+}
+
+/* ----------------------------- */
+/*      MODO OSCURO GLOBAL       */
+/* ----------------------------- */
+
+body.bg-dark {
+    background-color: #121212 !important;
+    color: #ffffff !important;
+}
+
+/* NAVBAR */
+.navbar-dark .navbar-brand,
+.navbar-dark .navbar-nav .nav-link {
+    color: #ffffff !important;
+}
+
+/* SIDEBAR */
+.sidebar {
+    background-color: #1f1f1f !important;
+}
+.sidebar .nav-link {
+    color: #ccc !important;
+}
+.sidebar .nav-link:hover,
+.sidebar .nav-link.active {
+    color: #0d6efd !important;
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    border-radius: 4px;
+}
+
+/* TARJETAS */
+.card,
+.card.bg-dark,
+.card.card-summary {
+    background-color: #1f1f1f !important;
+    color: #ffffff !important;
+    border: 1px solid #333 !important;
+}
+.card.card-summary.bg-primary {
+    background-color: #0d47a1 !important;
+}
+.card.card-summary.bg-success {
+    background-color: #1b5e20 !important;
+}
+.card.card-summary.bg-warning {
+    background-color: #f9a825 !important;
+    color: #000 !important;
+}
+.card .card-header.bg-light {
+    background-color: #2c2c2c !important;
+    color: #ddd !important;
+}
+.card .card-body {
+    color: #eee !important;
+}
+.card .card-footer {
+    background-color: transparent !important;
+    border-top: none !important;
+}
+
+/* FORMULARIOS */
+input.form-control,
+select.form-select,
+textarea.form-control {
+    background-color: #2c2c2c !important;
+    color: #ffffff !important;
+    border: 1px solid #555 !important;
+}
+.form-control::placeholder,
+select.form-select option {
+    color: #999999 !important;
+}
+input[readonly] {
+    background-color: #3a3a3a !important;
+    color: #ccc !important;
+}
+.form-control:focus,
+.form-select:focus,
+textarea.form-control:focus {
+    background-color: #3a3a3a !important;
+    border-color: #1e88e5 !important;
+    color: #fff !important;
+    box-shadow: 0 0 0 0.25rem rgba(30, 136, 229, 0.5);
+}
+
+/* BOTONES */
+.btn-primary {
+    background-color: #1e88e5 !important;
+    border-color: #1e88e5 !important;
+    color: #fff !important;
+}
+.btn-primary:hover {
+    background-color: #1565c0 !important;
+    border-color: #1565c0 !important;
+}
+.btn-secondary {
+    background-color: #444 !important;
+    border-color: #444 !important;
+    color: #ddd !important;
+}
+.btn-secondary:hover {
+    background-color: #666 !important;
+    border-color: #666 !important;
+    color: #fff !important;
+}
+
+/* TABLAS */
+.table {
+    color: #ddd !important;
+    border-color: #444 !important;
+}
+.table thead {
+    background-color: #2c2c2c !important;
+    color: #fff !important;
+}
+.table tbody tr {
+    border-bottom: 1px solid #444 !important;
+}
+.table tfoot {
+    background-color: #2c2c2c !important;
+    color: #fff !important;
+}
+.table th, .table td {
+    border-color: #444 !important;
+}
+
+/* MODALES */
+.modal-content.bg-dark {
+    background-color: #1f1f1f !important;
+    color: #eee !important;
+}
+.modal-header.bg-secondary {
+    background-color: #37474f !important;
+    color: #ddd !important;
+}
+.modal-footer .btn-secondary {
+    background-color: #37474f !important;
+    border-color: #37474f !important;
+    color: #ddd !important;
+}
+.modal-footer .btn-primary {
+    background-color: #1e88e5 !important;
+    border-color: #1e88e5 !important;
+    color: #fff !important;
+}
+
+/* ENCABEZADOS */
+h1, h2, h3, h4, h5, h6 {
+    color: #eee !important;
+}
+
+/* ICONOS */
+i.fas, i.fa {
+    color: #ccc !important;
+}
+
+/* MODO OSCURO - cuerpo general */
+body.bg-dark {
+    background-color: #121212 !important;
+    color: #ffffff !important;
+}
+
+/* Sidebar en modo oscuro */
+.sidebar.bg-dark {
+    background-color: #1f1f1f !important;
+}
+
+/* Enlaces de navegación dentro del sidebar en modo oscuro */
+.sidebar .nav-link {
+    color: #ccc !important;
+}
+
+.sidebar .nav-link:hover,
+.sidebar .nav-link.active {
+    color: #0d6efd !important;
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    border-radius: 4px;
+}
+
+/* Tarjetas en modo oscuro */
+.card,
+.card.bg-dark {
+    background-color: #1f1f1f !important;
+    color: #ffffff !important;
+    border: 1px solid #333 !important;
+}
+
+/* Tablas en modo oscuro */
+.table {
+    color: #ddd !important;
+    border-color: #444 !important;
+}
+
+.table thead {
+    background-color: #2c2c2c !important;
+    color: #fff !important;
 }
