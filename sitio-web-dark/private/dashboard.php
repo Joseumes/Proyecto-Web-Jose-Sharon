@@ -26,7 +26,7 @@ if (!isset($_SESSION['loggedin'])) {
         }
     </style>
 </head>
-<body>
+<body class="bg-dark text-white">
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-3 col-lg-2 d-md-block sidebar bg-light p-3">
@@ -143,5 +143,5 @@ if (!isset($_SESSION['loggedin'])) {
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
+</body class="bg-dark text-white">
 </html>

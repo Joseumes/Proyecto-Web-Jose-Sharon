@@ -26,7 +26,7 @@ $habitacion = isset($_GET['habitacion']) ? $_GET['habitacion'] : '';
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-<body>
+<body class="bg-dark text-white">
     <div class="container-fluid">
         <div class="row">
             <?php include('sidebar.php'); ?>
@@ -105,5 +105,5 @@ $habitacion = isset($_GET['habitacion']) ? $_GET['habitacion'] : '';
             document.querySelector('input[name="fecha_registro"]').value = fechaHora;
         });
     </script>
-</body>
+</body class="bg-dark text-white">
 </html>
