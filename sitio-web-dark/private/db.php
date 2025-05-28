@@ -1,11 +1,10 @@
 <?php
-$host ='172.17.52.131';
+$host ='mysql-db';
 $user = "hoteluser";
 $password = "hotelpass";
 $database = "Hotel_Paraiso";
-$port = 3308;
 
-$conn = new mysqli($host, $user, $password, $database, $port);
+$conn = new mysqli($host, $user, $password, $database);
 
 if ($conn->connect_error) {
     die("Conexión fallida: " . $conn->connect_error);
