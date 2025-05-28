@@ -4,6 +4,51 @@ if (!isset($_SESSION['loggedin'])) {
     header("Location: ../login.php");
     exit;
 }
+
+require_once __DIR__ . '/../private/db.php';
+
+// Verificar si la conexión está establecida
+if (!isset($conn) || $conn->connect_error) {
+    die("Error de conexión a la base de datos");
+}
+
+// Obtener estadísticas
+$error = null;
+try {
+    // Habitaciones ocupadas
+    $result = $conn->query("SELECT COUNT(*) as ocupadas FROM HABITACION WHERE estado = 'ocupada'");
+    $row = $result->fetch_assoc();
+    $ocupadas = $row['ocupadas'];
+    
+    $result = $conn->query("SELECT COUNT(*) as total FROM HABITACION");
+    $row = $result->fetch_assoc();
+    $total_habitaciones = $row['total'];
+    $porcentaje_ocupacion = ($total_habitaciones > 0) ? round(($ocupadas / $total_habitaciones) * 100, 2) : 0;
+    
+    // Ingresos del día
+    $result = $conn->query("SELECT SUM(total_pagado) as ingresos FROM HOSPEDAJE WHERE DATE(fecha_checkin) = CURDATE()");
+    $row = $result->fetch_assoc();
+    $ingresos_hoy = $row['ingresos'] ?? 0;
+    
+    // Clientes activos
+    $result = $conn->query("SELECT COUNT(*) as activos FROM HOSPEDAJE WHERE fecha_checkout IS NULL");
+    $row = $result->fetch_assoc();
+    $clientes_activos = $row['activos'];
+    
+    // Últimos clientes registrados
+    $ultimos_clientes = [];
+    $result = $conn->query("SELECT c.nombre, c.nit, h.numero_habitacion as numero, h.fecha_checkin, h.total_pagado 
+                           FROM HOSPEDAJE h 
+                           JOIN CLIENTE c ON h.id_cliente = c.id 
+                           ORDER BY h.fecha_checkin DESC LIMIT 5");
+    if ($result) {
+        while ($row = $result->fetch_assoc()) {
+            $ultimos_clientes[] = $row;
+        }
+    }
+} catch(Exception $e) {
+    $error = "Error al obtener datos: " . $e->getMessage();
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -24,61 +69,36 @@ if (!isset($_SESSION['loggedin'])) {
             min-height: 100vh;
             background: #f8f9fa;
         }
+        body {
+            background-color: #f8f9fa;
+        }
+        .main-content {
+            background-color: #ffffff;
+            min-height: 100vh;
+        }
     </style>
 </head>
-<body class="bg-dark text-white">
+<body>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-3 col-lg-2 d-md-block sidebar bg-light p-3">
-                <div class="text-center mb-4">
-                    <img src="../public/assets/img/logo.png" alt="Logo" width="80">
-                    <h5 class="mt-2">Hotel El Paraíso</h5>
-                </div>
-                
-                <ul class="nav flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="dashboard.php">
-                            <i class="fas fa-tachometer-alt me-2"></i> Dashboard
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="registrar_cliente.php">
-                            <i class="fas fa-user-plus me-2"></i> Registrar Cliente
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="habitaciones.php">
-                            <i class="fas fa-bed me-2"></i> Habitaciones
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="actualizar_cargos.php">
-                            <i class="fas fa-money-bill-wave me-2"></i> Actualizar Cargos
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="salida_cliente.php">
-                            <i class="fas fa-sign-out-alt me-2"></i> Salida Cliente
-                        </a>
-                    </li>
-                    <li class="nav-item mt-3">
-                        <a class="nav-link text-danger" href="logout.php">
-                            <i class="fas fa-power-off me-2"></i> Cerrar Sesión
-                        </a>
-                    </li>
-                </ul>
-            </div>
-
-            <div class="col-md-9 col-lg-10 p-4">
+            <!-- Sidebar -->
+            <?php include('sidebar.php'); ?>
+            
+            <!-- Main Content -->
+            <div class="col-md-9 col-lg-10 p-4 main-content">
                 <h2 class="mb-4"><i class="fas fa-tachometer-alt me-2"></i> Panel de Control</h2>
+                
+                <?php if(isset($error)): ?>
+                <div class="alert alert-danger"><?php echo $error; ?></div>
+                <?php endif; ?>
                 
                 <div class="row mb-4">
                     <div class="col-md-4 mb-3">
                         <div class="card card-summary bg-primary text-white">
                             <div class="card-body">
                                 <h5 class="card-title">Habitaciones Ocupadas</h5>
-                                <h2 class="card-text">5/8</h2>
-                                <p class="card-text">62.5% de ocupación</p>
+                                <h2 class="card-text"><?php echo $ocupadas; ?>/<?php echo $total_habitaciones; ?></h2>
+                                <p class="card-text"><?php echo $porcentaje_ocupacion; ?>% de ocupación</p>
                             </div>
                         </div>
                     </div>
@@ -86,7 +106,7 @@ if (!isset($_SESSION['loggedin'])) {
                         <div class="card card-summary bg-success text-white">
                             <div class="card-body">
                                 <h5 class="card-title">Ingresos Hoy</h5>
-                                <h2 class="card-text">Q1,750.00</h2>
+                                <h2 class="card-text">Q<?php echo number_format($ingresos_hoy, 2); ?></h2>
                                 <p class="card-text">Total del día</p>
                             </div>
                         </div>
@@ -95,7 +115,7 @@ if (!isset($_SESSION['loggedin'])) {
                         <div class="card card-summary bg-warning text-dark">
                             <div class="card-body">
                                 <h5 class="card-title">Clientes Activos</h5>
-                                <h2 class="card-text">5</h2>
+                                <h2 class="card-text"><?php echo $clientes_activos; ?></h2>
                                 <p class="card-text">En el hotel</p>
                             </div>
                         </div>
@@ -119,20 +139,15 @@ if (!isset($_SESSION['loggedin'])) {
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <?php foreach($ultimos_clientes as $cliente): ?>
                                     <tr>
-                                        <td>Juan Pérez</td>
-                                        <td>1234567-8</td>
-                                        <td>101</td>
-                                        <td>2023-10-15</td>
-                                        <td>Q700.00</td>
+                                        <td><?php echo htmlspecialchars($cliente['nombre']); ?></td>
+                                        <td><?php echo htmlspecialchars($cliente['nit']); ?></td>
+                                        <td><?php echo htmlspecialchars($cliente['numero']); ?></td>
+                                        <td><?php echo date('Y-m-d', strtotime($cliente['fecha_checkin'])); ?></td>
+                                        <td>Q<?php echo number_format($cliente['total_pagado'], 2); ?></td>
                                     </tr>
-                                    <tr>
-                                        <td>María Gómez</td>
-                                        <td>8765432-1</td>
-                                        <td>102</td>
-                                        <td>2023-10-14</td>
-                                        <td>Q1,050.00</td>
-                                    </tr>
+                                    <?php endforeach; ?>
                                 </tbody>
                             </table>
                         </div>
