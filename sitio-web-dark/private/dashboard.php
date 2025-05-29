@@ -38,9 +38,9 @@ try {
     // Últimos clientes registrados
     $ultimos_clientes = [];
     $result = $conn->query("SELECT c.nombre, c.nit, h.numero_habitacion as numero, h.fecha_checkin, h.total_pagado 
-                           FROM HOSPEDAJE h 
-                           JOIN CLIENTE c ON h.id_cliente = c.id 
-                           ORDER BY h.fecha_checkin DESC LIMIT 5");
+                        FROM HOSPEDAJE h 
+                        JOIN CLIENTE c ON h.id_cliente = c.id 
+                        ORDER BY h.fecha_checkin DESC LIMIT 5");
     if ($result) {
         while ($row = $result->fetch_assoc()) {
             $ultimos_clientes[] = $row;
@@ -79,7 +79,6 @@ try {
     </style>
 </head>
 <body>
-                </div>
     <div class="container-fluid">
         <div class="row">
             <!-- Sidebar -->
