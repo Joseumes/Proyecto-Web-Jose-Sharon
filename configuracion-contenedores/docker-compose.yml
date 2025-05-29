@@ -46,6 +46,19 @@ services:
     networks:
       - hotel-network
 
+  haproxy:
+    image: haproxy:2.6
+    container_name: haproxy-balancer
+    ports:
+      - "80:80"  # El puerto que expone públicamente el balanceador
+    volumes:
+      - ./haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
+    depends_on:
+      - php-light
+      - php-dark
+    networks:
+      - hotel-network
+
 volumes:
   mysql_data:
 
