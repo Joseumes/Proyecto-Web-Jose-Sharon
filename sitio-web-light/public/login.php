@@ -1,20 +1,45 @@
 <?php
 session_start();
 
+// Incluir la conexión a la base de datos
+require_once __DIR__ . '/../private/db.php';
+
+$error = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = $_POST['username'];
     $password = $_POST['password'];
-    
-    
-    if ($username === 'admin' && $password === 'admin') {
-        $_SESSION['loggedin'] = true;
-        $_SESSION['username'] = $username;
-        header("Location: ../private/dashboard.php");
-        exit;
-    } else {
-        $error = "Usuario o contraseña incorrectos";
+
+    // Preparar consulta (evitar inyección SQL)
+    $stmt = $conn->prepare("SELECT ID, USERNAME, CONTRASEÑA, NOMBRE, ROL FROM USUARIO WHERE USERNAME = ?");
+    $stmt->bind_param("s", $username);
+    $stmt->execute();
+    $stmt->store_result();
+
+    if ($stmt->num_rows === 1) {
+        // Vincular resultados
+        $stmt->bind_result($id, $db_username, $db_password, $nombre, $rol);
+
+        if ($stmt->fetch() && $password === $db_password) {
+            // Credenciales correctas
+            $_SESSION['loggedin'] = true;
+            $_SESSION['id'] = $id;
+            $_SESSION['username'] = $db_username;
+            $_SESSION['nombre'] = $nombre;
+            $_SESSION['rol'] = $rol;
+
+            // Redirigir según el rol
+            if ($rol === 'admin') {
+                header("Location: ../private/dashboard.php");
+            } else {
+                header("Location: ../private/dashboard.php");
+            }
+            exit;
+        }
     }
+
+    // Si llegamos aquí, credenciales inválidas
+    $error = "Usuario o contraseña incorrectos";
 }
 ?>
 <!DOCTYPE html>
